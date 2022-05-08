@@ -2,55 +2,41 @@
 // how many are staked
 // how many tokens were earned
 
-import { useMoralis, useWeb3Contract } from "react-moralis"
-import { rewardTokenAbi, rewardTokenAddress, stakingAddress } from "../constants"
-import { useState, useEffect } from "react"
+import { useMoralis, useWeb3Contract } from "react-moralis";
+import { stakingMonitorAbi, stakingMonitorAddress } from "../constants";
+import { useState, useEffect } from "react";
+import { ethers } from "ethers";
 
 export default function StakeDetails() {
-    const { account, isWeb3Enabled } = useMoralis
-    const [rtBalance, setRtBalance] = useState("0")
-    const [stakedBalance, setStakedBalance] = useState("0")
-    const [earnedBalance, setEarnedBalance] = useState("0")
+  const { account, isWeb3Enabled } = useMoralis();
+  const [stakedBalance, setStakedBalance] = useState("0");
 
-    const { runContractFunction } = useWeb3Contract({
-        abi: rewardTokenAbi,
-        contractAddress: rewardTokenAddress,
-        functionName: "balanceOf",
-        params: {
-            account: account,
-        },
-    })
+  const { runContractFunction: getStakedBalance } = useWeb3Contract({
+    abi: stakingMonitorAbi,
+    contractAddress: stakingMonitorAddress,
+    functionName: "getBalance",
+    params: {
+      account: account,
+    },
+  });
 
-    const { runContractFunction: getStakedBalance } = useWeb3Contract({
-        abi: rewardTokenAbi,
-        contractAddress: rewardTokenAddress,
-        functionName: "stakedFromContract",
-        params: {
-            account: account,
-        },
-    })
-
-    console.log(account)
-
-    useEffect(() => {
-        if (isWeb3Enabled && account) {
-        }
-        // update the ui and get balances
-    }, [account, isWeb3Enabled])
-
-    async function updateUiValues() {
-        const rtBalanceFromContract = (
-            await getRtBalance({ onError: (error) => console.log(error) })
-        ).toString()
-        const formattedRtBalanceFromContract = ethers.utils.formatUnits(
-            rtBalanceFromContract,
-            "ether"
-        )
-        setRtBalance(balance)
+  useEffect(() => {
+    if (isWeb3Enabled && account) {
+      console.log("ready");
+      updateUiValues();
     }
+  }, [account, isWeb3Enabled]);
 
-    // reward token address
-    // reward token abi
+  async function updateUiValues() {
+    const balanceFromContract = (
+      await getStakedBalance({ onError: (error) => console.log(error) })
+    ).toString();
+    const formattedStakedBalanceFromContract = ethers.utils.formatUnits(
+      balanceFromContract,
+      "ether"
+    );
+    setStakedBalance(formattedStakedBalanceFromContract);
+  }
 
-    return <div>RT Balance is {}</div>
+  return <div>Your Balance is {stakedBalance}</div>;
 }
