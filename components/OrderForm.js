@@ -10,19 +10,19 @@ import { stakingMonitorAbi, stakingMonitorAddress } from "../constants";
 export default function StakeForm() {
   const { runContractFunction } = useWeb3Contract();
 
-  let depositOptions = {
+  let orderOptions = {
     abi: stakingMonitorAbi,
     contractAddress: stakingMonitorAddress,
-    functionName: "deposit",
+    functionName: "updateOrder",
   };
 
-  async function handleDepositSubmit(data) {
+  async function handleOrderSubmit(data) {
     depositOptions.msgValue = ethers.utils
       .parseUnits(data.data[0].inputResult)
       .toString();
     console.log("staking...");
     const tx = await runContractFunction({
-      params: depositOptions,
+      params: orderOptions,
       onError: (error) => console.log(error),
     });
     console.log(tx);
@@ -33,16 +33,17 @@ export default function StakeForm() {
   return (
     <div>
       <Form
-        onSubmit={handleDepositSubmit}
+        onSubmit={handleOrderSubmit}
         data={[
           {
             inputWidth: "100%",
-            name: "Amount to deposit (in ETH)",
+            name: "Price Limit (in dollars)",
             type: "number",
             value: "",
-            key: "amountToDeposit",
+            key: "priceLimit",
           },
         ]}
+        title=""
       ></Form>
     </div>
   );

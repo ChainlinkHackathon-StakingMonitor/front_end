@@ -1,6 +1,8 @@
 import Header from "../components/Header";
 import StakeDetails from "../components/StakeDetails";
 import StakeForm from "../components/StakeForm";
+import OrderDetails from "../components/OrderDetails";
+import OrderForm from "../components/OrderForm";
 import { useChain } from "react-moralis";
 
 export default function Home() {
@@ -8,9 +10,15 @@ export default function Home() {
   return (
     <div className="">
       <Header />
-      <div className="grid grid-cols-2 gap-2 bg-gray-200">
-        <StakeDetails />
-        <StakeForm />
+      <div className="grid grid-cols-2 gap-10 p-10">
+        <div>
+          <StakeDetails />
+          <StakeForm />
+        </div>
+        <div>
+          <OrderDetails />
+          <OrderForm />
+        </div>
       </div>
     </div>
   );
