@@ -5,42 +5,27 @@
 import { ethers } from "ethers";
 import { useWeb3Contract } from "react-moralis";
 import { Form } from "web3uikit";
-import { stakingMonitorAbi, stakingAddress } from "../constants";
+import { stakingMonitorAbi, stakingMonitorAddress } from "../constants";
 
 export default function StakeForm() {
   const { runContractFunction } = useWeb3Contract();
 
-  let stakeOptions = {
+  let depositOptions = {
     abi: stakingMonitorAbi,
-    contractAddress: stakingAddress,
-    functionName: "approve",
+    contractAddress: stakingMonitorAddress,
+    functionName: "deposit",
   };
 
-  async function handleStakeSubmit() {
-    const amountToApprove = data.data[0].inputResult;
-    approveOptions.params = {
-      amount: ethers.utils.parseUnits(amountToApprove, "ethers").toString(),
-      spender: stakingAddress,
-    };
-    console.log("approving...");
-    const tx = await runContractFunction({
-      params: approveOptions,
-      onError: (error) => console.log(error),
-      onSuccess: () => {
-        handleApproveSuccess(approveOptions.params.amount);
-      },
-    });
-  }
-
-  async function handleApproveSuccess(amountToStakeFormatted) {
-    stakeOptions.params = {
-      amount: amountToStakeFormat,
-    };
+  async function handleDepositSubmit(data) {
+    depositOptions.msgValue = ethers.utils
+      .parseUnits(data.data[0].inputResult)
+      .toString();
     console.log("staking...");
     const tx = await runContractFunction({
-      params: stakeOptions,
+      params: depositOptions,
       onError: (error) => console.log(error),
     });
+    console.log(tx);
     await tx.wait(1);
     console.log("staked");
   }
@@ -48,17 +33,17 @@ export default function StakeForm() {
   return (
     <div>
       <Form
-        onSubmit={handleStakeSubmit}
+        onSubmit={handleDepositSubmit}
         data={[
           {
             inputWidth: "50%",
-            name: "Amount to stake (in ETH)",
+            name: "Amount to deposit (in ETH)",
             type: "number",
             value: "",
-            key: "amountToStake",
+            key: "amountToDeposit",
           },
         ]}
-        title="Let's stake"
+        title="Deposit"
       ></Form>
     </div>
   );
