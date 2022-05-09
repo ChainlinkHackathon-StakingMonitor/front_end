@@ -2,48 +2,41 @@
 // staking address
 // how much they want to stake
 // approve the reward token
-import { ethers } from "ethers";
-import { useWeb3Contract } from "react-moralis";
-import { Form } from "web3uikit";
-import { stakingMonitorAbi, stakingMonitorAddress } from "../constants";
 
-export default function StakeForm() {
-  const { runContractFunction } = useWeb3Contract();
+import { Button, Loading, Input, useNotification } from "web3uikit"
 
-  let depositOptions = {
-    abi: stakingMonitorAbi,
-    contractAddress: stakingMonitorAddress,
-    functionName: "deposit",
-  };
-
-  async function handleDepositSubmit(data) {
-    depositOptions.msgValue = ethers.utils
-      .parseUnits(data.data[0].inputResult)
-      .toString();
-    console.log("staking...");
-    const tx = await runContractFunction({
-      params: depositOptions,
-      onError: (error) => console.log(error),
-    });
-    console.log(tx);
-    await tx.wait(1);
-    console.log("staked");
-  }
-
+export default function StakeForm({ handleDepositSubmit, transactionLoading }) {
   return (
-    <div>
-      <Form
-        onSubmit={handleDepositSubmit}
-        data={[
-          {
-            inputWidth: "100%",
-            name: "Amount to deposit (in ETH)",
-            type: "number",
-            value: "",
-            key: "amountToDeposit",
-          },
-        ]}
-      ></Form>
-    </div>
-  );
+    <form className="my-4" onSubmit={handleDepositSubmit}>
+      {/* <p></p> */}
+      <div className="relative my-4">
+        <Input
+          style={{
+            marginTop: "30px",
+            marginBottom: "30px",
+          }}
+          width="100%"
+          label="Make a deposit (in ETH)"
+          type="number"
+          // min="0.01"
+          step=".01"
+          required
+        />
+      </div>
+      <Button
+        isFullWidth={true}
+        disabled={transactionLoading}
+        type="submit"
+        icon="eth"
+        size="large"
+        text={
+          !transactionLoading ? (
+            "Confirm Deposit"
+          ) : (
+            <Loading spinnerColor="#2e7daf" />
+          )
+        }
+      />
+    </form>
+  )
 }
