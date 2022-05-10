@@ -14,7 +14,13 @@ jobs:
     name: A job to test the action-deploy action by deploying a test site
     steps:
       - uses: actions/checkout@v2
-      - name: Deploy test site
+      - name: Install Dependencies
+        run: yarn
+      - name: Creates optimized production build
+        run: yarn build
+      - name: Export build to static HTML
+        run: yarn export
+      - name: Deploy application to Fleek
         id: deploy
         uses: fleekhq/action-deploy@v1
         with:

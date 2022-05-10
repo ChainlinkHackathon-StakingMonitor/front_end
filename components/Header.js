@@ -1,11 +1,12 @@
-import { ConnectButton } from "web3uikit";
+import { ConnectButton } from "web3uikit"
+
 export default function Header() {
   return (
-    <nav className="p-5 border-b-2 flex flex-row">
-      <h1 className="py-4 px-5 font-bold text-3xl">Staking Monitor</h1>
-      <div className="ml-auto py-2 px-4">
+    <nav className="flex flex-row p-5 border-b-2">
+      <h1 className="px-5 py-4 text-3xl font-bold">Staking Monitor</h1>
+      <div className="px-4 py-2 ml-auto">
         <ConnectButton moralisAuth={false}></ConnectButton>
       </div>
     </nav>
-  );
+  )
 }

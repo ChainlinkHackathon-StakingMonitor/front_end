@@ -1,0 +1,14 @@
+{
+  "site": {
+    "id": "f446723a-3f70-4338-83b4-5603a4fe0a43",
+    "team": "ee223c61-74c8-443d-b697-05ba69ef52e5",
+    "platform": "ipfs",
+    "source": "ipfs",
+    "name": "yellow-term-9557"
+  },
+  "build": {
+    "baseDir": "out",
+    "publicDir": "",
+    "rootDir": ""
+  }
+}

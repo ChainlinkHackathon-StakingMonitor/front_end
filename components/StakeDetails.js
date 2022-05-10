@@ -4,10 +4,11 @@
 
 import { useState, useEffect } from "react"
 
+import { ethers } from "ethers"
 import { useMoralis, useWeb3Contract } from "react-moralis"
 import { useNotification } from "web3uikit"
+
 import { stakingMonitorAbi, stakingMonitorAddress } from "../constants"
-import { ethers } from "ethers"
 import StakeForm from "./StakeForm"
 
 export default function StakeDetails() {
@@ -22,16 +23,9 @@ export default function StakeDetails() {
     contractAddress: stakingMonitorAddress,
     functionName: "getBalance",
     params: {
-      account: account,
+      account,
     },
   })
-
-  useEffect(() => {
-    if (isWeb3Enabled && account) {
-      console.log("ready")
-      updateUiValues()
-    }
-  }, [account, isWeb3Enabled])
 
   async function updateUiValues() {
     const balanceFromContract = (
@@ -44,17 +38,38 @@ export default function StakeDetails() {
     setStakedBalance(formattedStakedBalanceFromContract)
   }
 
+  useEffect(() => {
+    if (isWeb3Enabled && account) {
+      console.log("ready")
+      updateUiValues()
+    }
+  }, [account, isWeb3Enabled])
+
   const dispatch = useNotification()
 
-  let depositOptions = {
+  const depositOptions = {
     abi: stakingMonitorAbi,
     contractAddress: stakingMonitorAddress,
     functionName: "deposit",
   }
 
+  function handleDepositNotification(status, error = null) {
+    dispatch({
+      type: status === "success" ? "success" : "error",
+      message: `Transaction ${
+        status === "success" ? "Successful" : `Failed: ${error}`
+      }`,
+      title: "Transaction Notification",
+      position: "topL",
+      icon: "bell",
+    })
+  }
+
   async function handleDepositSubmit(e) {
     e.preventDefault()
-    let status, error
+    let status
+    let error
+
     setTransactionLoading(true)
 
     const value = e.target[0].value
@@ -62,10 +77,11 @@ export default function StakeDetails() {
     console.log("staking...")
     const tx = await runContractFunction({
       params: depositOptions,
-      onError: (error) => {
+      onError: (mmError) => {
         status = "error"
-        error = error.message
-        console.log(error)
+        error = mmError.message
+
+        console.log(mmError)
         setTransactionLoading(false)
       },
       onSuccess: () => {
@@ -81,18 +97,6 @@ export default function StakeDetails() {
     console.log("staked")
 
     e.target.reset()
-  }
-
-  function handleDepositNotification(status, error = null) {
-    dispatch({
-      type: status === "success" ? "success" : "error",
-      message: `Transaction ${
-        status === "success" ? "Successful" : `Failed: ${error}`
-      }`,
-      title: "Transaction Notification",
-      position: "topL",
-      icon: "bell",
-    })
   }
 
   return (

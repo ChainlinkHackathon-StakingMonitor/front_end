@@ -18,14 +18,14 @@ export default function StakeForm() {
 
   const { runContractFunction } = useWeb3Contract()
 
-  let orderOptions = {
+  const orderOptions = {
     abi: stakingMonitorAbi,
     contractAddress: stakingMonitorAddress,
     functionName: "updateOrder",
   }
 
   async function handleOrderSubmit(data) {
-    depositOptions.msgValue = ethers.utils
+    orderOptions.msgValue = ethers.utils
       .parseUnits(data.data[0].inputResult)
       .toString()
     console.log("staking...")
