@@ -9,9 +9,9 @@ on:
       - master
 
 jobs:
-  test-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    name: A job to test the action-deploy action by deploying a test site
+    name: Deploy Next.js static HTML export to Fleek
     steps:
       - uses: actions/checkout@v2
       - name: Install Dependencies
