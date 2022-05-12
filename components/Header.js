@@ -3,8 +3,8 @@ import Image from "next/image"
 
 export default function Header() {
   return (
-    <nav className="flex flex-row p-5">
-      <h1 className="">
+    <nav className="flex flex-row p-5 pr-2">
+      <h1 className="pl-3">
         <Image alt="logo" src="/logo.png" height="50px" width="250px" />
       </h1>
       <div className="px-4 py-2 ml-auto">
