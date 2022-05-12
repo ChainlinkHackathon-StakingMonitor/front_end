@@ -11,11 +11,11 @@ export default function Home() {
     <div className="">
       <Header />
       <div className="grid grid-cols-1 gap-10 p-10 md:grid-cols-2">
-        <div>
+        <div className="bg-white p-10 rounded-xl opacity-90">
           <StakeDetails />
           {/* <StakeForm /> */}
         </div>
-        <div>
+        <div className="bg-white p-10 rounded-xl opacity-90">
           {/* <OrderDetails /> */}
           <OrderForm />
         </div>

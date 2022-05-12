@@ -42,7 +42,7 @@ export default function StakeForm() {
     setSellValue(e.target.value)
   }
 
-  console.log({ sellValue })
+  //console.log({ sellValue })
 
   return (
     <div>
