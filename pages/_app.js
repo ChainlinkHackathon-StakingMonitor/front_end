@@ -4,7 +4,10 @@ import { NotificationProvider } from "web3uikit"
 
 function MyApp({ Component, pageProps }) {
   return (
-    <MoralisProvider initializeOnMount={false}>
+    <MoralisProvider
+      appId={process.env.NEXT_PUBLIC_APP_ID}
+      serverUrl={process.env.NEXT_PUBLIC_SERVER_URL}
+    >
       <NotificationProvider>
         <Component {...pageProps} />
       </NotificationProvider>
