@@ -7,14 +7,19 @@ import { useState } from "react"
 
 import { ethers } from "ethers"
 import { useWeb3Contract } from "react-moralis"
-import { Input, Button, Select } from "web3uikit"
+import { Input, Button, Select, Radios } from "web3uikit"
 import InputRange from "react-input-range"
-import { stakingMonitorAbi, stakingMonitorAddress } from "../constants"
+import {
+  stakingMonitorAbi,
+  stakingMonitorAddress,
+  NETWORK_CURRENCY_TICKER,
+} from "../constants"
 import "react-input-range/lib/css/index.css"
 
 export default function StakeForm() {
   const [transactionLoading, setTransactionLoading] = useState(false)
   const [sellValue, setSellValue] = useState(3000)
+  const [percentageOfReward, setPercentageOfReward] = useState(40)
 
   const { runContractFunction } = useWeb3Contract()
 
@@ -42,30 +47,43 @@ export default function StakeForm() {
     setSellValue(e.target.value)
   }
 
+  function handlePercentageOfReward(e) {
+    setPercentageOfReward(e.target.value)
+  }
+
   //console.log({ sellValue })
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold text-gray-500">Current Order</h2>
-
+      <h2 className="text-2xl font-semibold text-gray-500">Order Settings</h2>
       <form className="my-4" onSubmit={handleOrderSubmit}>
         {/* <p></p> */}
-        <div className="relative my-4">
+        <div className="relative my-6">
+          <h3 className="text-lg text-gray-600">Swap:</h3>
           <Input
             style={{
-              marginTop: "30px",
-              marginBottom: "30px",
+              // marginTop: "30px",
+              // marginBottom: "30px",
+              outline: 0,
             }}
             width="100%"
-            label="Sell (amount of ETH)"
-            type="number"
-            // min="0.01"
-            step=".01"
+            value={percentageOfReward}
+            onChange={handlePercentageOfReward}
+            // label="Sell when price of ETH reaches"
+            type="range"
+            min="5"
+            max="100"
             required
           />
+          <p className="font-semibold text-center">
+            {percentageOfReward} % of reward
+          </p>
         </div>
+
         <div className="relative my-6">
-          <h3 className="text-lg text-gray-600">Sell when price reaches:</h3>
+          <h3 className="text-lg text-gray-600">
+            when {NETWORK_CURRENCY_TICKER} price is above:
+          </h3>
           <Input
             style={{
               // marginTop: "30px",
@@ -77,46 +95,31 @@ export default function StakeForm() {
             onChange={handleSellValue}
             // label="Sell when price of ETH reaches"
             type="range"
-            min="3000"
+            min="2000"
             max="4000"
             required
           />
           <p className="font-semibold text-center">{sellValue} USD</p>
         </div>
-        <div className="relative my-6">
-          <h3 className="my-4 text-lg text-gray-600">Sale Frequency:</h3>
-          <Select
-            label="Every"
-            defaultOptionIndex={0}
-            options={[
-              {
-                id: "day",
-                label: "Day",
-              },
-              {
-                id: "week",
-                label: "Week",
-              },
-              {
-                id: "month",
-                label: "Month",
-              },
+        {/*<div className="relative my-6">
+          <Radios
+            id="radios"
+            items={[
+              "Every time a staking reward drops",
+              "When total staking rewards reaches [INPUT FOR AMOUNT] ETH",
             ]}
-            style={{
-              // marginTop: "30px",
-              marginBottom: "16px",
-              outline: 0,
-            }}
-            width="100%"
+            onBlur={function noRefCheck() {}}
+            onChange={function noRefCheck() {}}
+            onCreditCardRemoved={function noRefCheck() {}}
           />
-        </div>
+          </div>*/}
         <Button
           isFullWidth={true}
           disabled={transactionLoading}
           type="submit"
           icon="usdc"
           size="large"
-          text="Set Sell Order"
+          text="Set Swap Order"
         />
       </form>
     </div>
