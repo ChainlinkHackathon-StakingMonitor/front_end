@@ -3,16 +3,16 @@
 // how much they want to stake
 // approve the reward token
 
-import { Button, Loading, Input, useNotification } from "web3uikit"
+import { Button, Loading, Input } from "web3uikit"
 
 export default function StakeForm({
   handleDepositSubmit,
   transactionLoading,
-  txType,
+  isDeposit,
+  curr,
 }) {
   return (
     <form className="my-4" onSubmit={handleDepositSubmit}>
-      {/* <p></p> */}
       <div className="relative my-4">
         <Input
           style={{
@@ -20,7 +20,11 @@ export default function StakeForm({
             marginBottom: "30px",
           }}
           width="100%"
-          label="Make a deposit (in ETH)"
+          label={
+            isDeposit
+              ? `Make a deposit (in ${curr})`
+              : `Enter withdrawal amount (in ${curr})`
+          }
           type="number"
           // min="0.01"
           step=".01"
@@ -36,7 +40,7 @@ export default function StakeForm({
         text={
           !transactionLoading ? (
             // `Confirm Deposit`
-            txType === "withdraw" ? (
+            !isDeposit ? (
               "Confirm Withdrawal"
             ) : (
               "Confirm Deposit"

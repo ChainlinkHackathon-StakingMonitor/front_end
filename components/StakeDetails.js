@@ -4,20 +4,26 @@
 
 import { useState, useEffect } from "react"
 
-import { ethers } from "ethers"
-import { useMoralis, useWeb3Contract } from "react-moralis"
+import { ethers, utils } from "ethers"
+import { useMoralis, useWeb3Contract, useChain } from "react-moralis"
 import { Button, useNotification } from "web3uikit"
 
-import { stakingMonitorAbi, stakingMonitorAddress } from "../constants"
+import { addresses, stakingMonitorAbi } from "../constants"
 import StakeForm from "./StakeForm"
 
 export default function StakeDetails() {
-  const { account, isWeb3Enabled } = useMoralis()
+  const { account, isWeb3Enabled, chainId } = useMoralis()
   const [stakedBalance, setStakedBalance] = useState("0")
   const [transactionLoading, setTransactionLoading] = useState(false)
-  const [txType, setTxType] = useState("withdraw")
+  // const [txType, setTxType] = useState("withdraw")
+  const [isDeposit, setIsDeposit] = useState(true)
 
   const { runContractFunction } = useWeb3Contract()
+
+  const stakingMonitorAddress = addresses[parseInt(chainId).toString()].address
+
+  const { chain } = useChain()
+  const { nativeCurrency } = chain
 
   const { runContractFunction: getStakedBalance } = useWeb3Contract({
     abi: stakingMonitorAbi,
@@ -27,6 +33,10 @@ export default function StakeDetails() {
       account,
     },
   })
+
+  const handleTxType = (tx) => {
+    setIsDeposit(!isDeposit)
+  }
 
   async function updateUiValues() {
     const balanceFromContract = (
@@ -75,21 +85,19 @@ export default function StakeDetails() {
 
     const value = e.target[0].value
     depositOptions.msgValue = ethers.utils.parseUnits(value).toString()
-    console.log("staking...")
     const tx = await runContractFunction({
       params: depositOptions,
       onError: (mmError) => {
         status = "error"
         error = mmError.message
 
-        console.log(mmError)
         setTransactionLoading(false)
       },
       onSuccess: () => {
         status = "success"
       },
     })
-    console.log(tx)
+
     status === "success" && (await tx.wait(1))
     handleDepositNotification(status, error)
     setTransactionLoading(false)
@@ -107,44 +115,37 @@ export default function StakeDetails() {
       </h2>
       <hr className="mb-4" />
       <div className="flex flex-row items-center justify-between">
-        <p>Your Balance is {stakedBalance} ETHsssssssssssssss</p>
+        <p>
+          Your Balance is {stakedBalance} {nativeCurrency.symbol}
+        </p>
         <div className="flex space-x-2">
           <Button
             isFullWidth={true}
-            disabled={transactionLoading}
-            type="submit"
-            // icon="eth"
-            text="Withdraw"
-            size="large"
-            // text={
-            //   !transactionLoading ? (
-            //     "Confirm Deposit"
-            //   ) : (
-            //     <Loading spinnerColor="#2e7daf" />
-            //   )
-            // }
-          />
-          <Button
-            isFullWidth={true}
-            disabled={transactionLoading}
+            disabled={transactionLoading || isDeposit}
             type="submit"
             // icon="eth"
             text="Deposit"
             size="large"
-            // text={
-            //   !transactionLoading ? (
-            //     "Confirm Deposit"
-            //   ) : (
-            //     <Loading spinnerColor="#2e7daf" />
-            //   )
-            // }
+            theme={isDeposit ? "primary" : "submit"}
+            onClick={handleTxType}
+          />
+          <Button
+            isFullWidth={true}
+            disabled={transactionLoading || !isDeposit}
+            type="submit"
+            // icon="eth"
+            text="Withdraw"
+            size="large"
+            theme={!isDeposit ? "primary" : "submit"}
+            onClick={handleTxType}
           />
         </div>
       </div>
       <StakeForm
-        txType={txType}
+        isDeposit={isDeposit}
         handleDepositSubmit={handleDepositSubmit}
         transactionLoading={transactionLoading}
+        curr={nativeCurrency.symbol}
       />
     </div>
   )
