@@ -12,6 +12,12 @@ export default function StakeForm({
   curr,
   max,
 }) {
+  const inputProps = {}
+
+  if (!isDeposit) {
+    inputProps.max = max
+  }
+
   return (
     <form className="my-4" onSubmit={handleDepositSubmit}>
       <div className="relative my-4">
@@ -27,10 +33,9 @@ export default function StakeForm({
               : `Enter withdrawal amount (in ${curr})`
           }
           type="number"
-          // min="0.01"
-          max={max}
           step=".01"
           required
+          {...inputProps}
         />
       </div>
       <Button
