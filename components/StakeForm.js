@@ -5,7 +5,11 @@
 
 import { Button, Loading, Input, useNotification } from "web3uikit"
 
-export default function StakeForm({ handleDepositSubmit, transactionLoading }) {
+export default function StakeForm({
+  handleDepositSubmit,
+  transactionLoading,
+  txType,
+}) {
   return (
     <form className="my-4" onSubmit={handleDepositSubmit}>
       {/* <p></p> */}
@@ -28,10 +32,15 @@ export default function StakeForm({ handleDepositSubmit, transactionLoading }) {
         disabled={transactionLoading}
         type="submit"
         icon="eth"
-        size="large"
+        // size="large"
         text={
           !transactionLoading ? (
-            "Confirm Deposit"
+            // `Confirm Deposit`
+            txType === "withdraw" ? (
+              "Confirm Withdrawal"
+            ) : (
+              "Confirm Deposit"
+            )
           ) : (
             <Loading spinnerColor="#2e7daf" />
           )

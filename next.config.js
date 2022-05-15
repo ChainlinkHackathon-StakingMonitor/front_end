@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   assetPrefix: "./",
+  compiler: {
+    styledComponents: true,
+  },
 
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Important: return the modified config
