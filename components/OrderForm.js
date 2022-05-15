@@ -29,18 +29,20 @@ export default function StakeForm() {
     functionName: "updateOrder",
   }
 
-  async function handleOrderSubmit(data) {
-    orderOptions.msgValue = ethers.utils
-      .parseUnits(data.data[0].inputResult)
-      .toString()
-    console.log("staking...")
-    const tx = await runContractFunction({
-      params: orderOptions,
-      onError: (error) => console.log(error),
-    })
-    console.log(tx)
-    await tx.wait(1)
-    console.log("staked")
+  async function handleOrderSubmit(e) {
+    e.preventDefault()
+    //console.log(data)
+    //orderOptions.msgValue = ethers.utils
+    //  .parseUnits(data.data[0].inputResult)
+    //  .toString()
+    //console.log("staking...")
+    //const tx = await runContractFunction({
+    //  params: orderOptions,
+    //  onError: (error) => console.log(error),
+    //})
+    //console.log(tx)
+    //await tx.wait(1)
+    //console.log("staked")
   }
 
   function handleSellValue(e) {
@@ -50,8 +52,6 @@ export default function StakeForm() {
   function handlePercentageOfReward(e) {
     setPercentageOfReward(e.target.value)
   }
-
-  //console.log({ sellValue })
 
   return (
     <div>
@@ -101,18 +101,6 @@ export default function StakeForm() {
           />
           <p className="font-semibold text-center">{sellValue} USD</p>
         </div>
-        {/*<div className="relative my-6">
-          <Radios
-            id="radios"
-            items={[
-              "Every time a staking reward drops",
-              "When total staking rewards reaches [INPUT FOR AMOUNT] ETH",
-            ]}
-            onBlur={function noRefCheck() {}}
-            onChange={function noRefCheck() {}}
-            onCreditCardRemoved={function noRefCheck() {}}
-          />
-          </div>*/}
         <Button
           isFullWidth={true}
           disabled={transactionLoading}
