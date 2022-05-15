@@ -84,7 +84,10 @@ export default function StakeForm() {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold text-gray-500">Order Settings</h2>
+      <h2 className="text-2xl font-semibold text-gray-500 text-center">
+        Order Settings
+      </h2>
+      <hr className="mb-4" />
       <form className="my-4" onSubmit={handleOrderSubmit}>
         {/* <p></p> */}
         <div className="relative my-6">

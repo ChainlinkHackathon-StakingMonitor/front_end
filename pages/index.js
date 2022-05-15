@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useChain, useMoralis } from "react-moralis"
 import Header from "../components/Header"
+import History from "../components/History"
 import StakeDetails from "../components/StakeDetails"
 // import StakeForm from "../components/StakeForm"
 // import OrderDetails from "../components/OrderDetails"
@@ -36,6 +37,10 @@ export default function Home() {
           <div className="p-10 bg-white rounded-xl opacity-90">
             {/* <OrderDetails /> */}
             <OrderForm />
+          </div>
+          <div className="p-10 bg-white rounded-xl opacity-90 col-span-2">
+            {/* <OrderDetails /> */}
+            <History />
           </div>
         </div>
       ) : (
