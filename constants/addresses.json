@@ -1,6 +1,7 @@
 {
   "4": {
-    "address": "0x665d85611296d3CcCaB16d687CB649771704619F",
-    "name": "Rinkeby"
+    "address": "0xA133e600a4C44B807ce43Bb1630293C34cd4Fb32",
+    "name": "Rinkeby",
+    "currency": "ETH"
   }
 }

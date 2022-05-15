@@ -1,8 +1,6 @@
-// import React from 'react';
 import chroma from "chroma-js"
 import { utils } from "ethers"
 
-// import { ColourOption, colourOptions } from '../data';
 import Select from "react-select"
 
 const dot = (color = "transparent") => ({
@@ -69,6 +67,7 @@ const DropDown = ({ onChange }) => (
     options={colourOptions}
     styles={colourStyles}
     onChange={onChange}
+    instanceId={"network-select-dropdown"}
   />
 )
 

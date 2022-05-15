@@ -10,6 +10,7 @@ export default function StakeForm({
   transactionLoading,
   isDeposit,
   curr,
+  max,
 }) {
   return (
     <form className="my-4" onSubmit={handleDepositSubmit}>
@@ -27,6 +28,7 @@ export default function StakeForm({
           }
           type="number"
           // min="0.01"
+          max={max}
           step=".01"
           required
         />

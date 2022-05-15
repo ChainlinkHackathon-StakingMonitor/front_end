@@ -20,15 +20,12 @@ export default function StakeDetails() {
 
   const { runContractFunction } = useWeb3Contract()
 
-  const stakingMonitorAddress = addresses[parseInt(chainId).toString()].address
+  const { address, currency } = addresses[parseInt(chainId).toString()]
 
-  const { chain } = useChain()
-  const { nativeCurrency } = chain
-
-  const { runContractFunction: getStakedBalance } = useWeb3Contract({
+  const { runContractFunction: getDepositBalance } = useWeb3Contract({
     abi: stakingMonitorAbi,
-    contractAddress: stakingMonitorAddress,
-    functionName: "getBalance",
+    contractAddress: address,
+    functionName: "getDepositBalance",
     params: {
       account,
     },
@@ -39,9 +36,13 @@ export default function StakeDetails() {
   }
 
   async function updateUiValues() {
-    const balanceFromContract = (
-      await getStakedBalance({ onError: (error) => console.log(error) })
-    ).toString()
+    let balanceFromContract = await getDepositBalance({
+      onError: (error) => console.log(error),
+    })
+
+    balanceFromContract = balanceFromContract
+      ? balanceFromContract.toString()
+      : 0
     const formattedStakedBalanceFromContract = ethers.utils.formatUnits(
       balanceFromContract,
       "ether"
@@ -60,7 +61,7 @@ export default function StakeDetails() {
 
   const depositOptions = {
     abi: stakingMonitorAbi,
-    contractAddress: stakingMonitorAddress,
+    contractAddress: address,
     functionName: "deposit",
   }
 
@@ -103,8 +104,6 @@ export default function StakeDetails() {
     setTransactionLoading(false)
     await updateUiValues()
 
-    console.log("staked")
-
     e.target.reset()
   }
 
@@ -116,7 +115,7 @@ export default function StakeDetails() {
       <hr className="mb-4" />
       <div className="flex flex-row items-center justify-between">
         <p>
-          Your Balance is {stakedBalance} {nativeCurrency.symbol}
+          Your Balance is {stakedBalance} {currency}
         </p>
         <div className="flex space-x-2">
           <Button
@@ -145,7 +144,8 @@ export default function StakeDetails() {
         isDeposit={isDeposit}
         handleDepositSubmit={handleDepositSubmit}
         transactionLoading={transactionLoading}
-        curr={nativeCurrency.symbol}
+        max={stakedBalance}
+        curr={currency}
       />
     </div>
   )
