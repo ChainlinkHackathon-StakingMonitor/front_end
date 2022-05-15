@@ -6,7 +6,7 @@ import { useState, useEffect } from "react"
 
 import { ethers } from "ethers"
 import { useMoralis, useWeb3Contract } from "react-moralis"
-import { useNotification } from "web3uikit"
+import { Button, useNotification } from "web3uikit"
 
 import { stakingMonitorAbi, stakingMonitorAddress } from "../constants"
 import StakeForm from "./StakeForm"
@@ -15,6 +15,7 @@ export default function StakeDetails() {
   const { account, isWeb3Enabled } = useMoralis()
   const [stakedBalance, setStakedBalance] = useState("0")
   const [transactionLoading, setTransactionLoading] = useState(false)
+  const [txType, setTxType] = useState("withdraw")
 
   const { runContractFunction } = useWeb3Contract()
 
@@ -101,10 +102,47 @@ export default function StakeDetails() {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold text-gray-500">
-        Your Balance is {stakedBalance} ETH
+      <h2 className="mb-4 text-2xl font-semibold text-center text-gray-500">
+        Dashboard
       </h2>
+      <hr className="mb-4" />
+      <div className="flex flex-row items-center justify-between">
+        <p>Your Balance is {stakedBalance} ETHsssssssssssssss</p>
+        <div className="flex space-x-2">
+          <Button
+            isFullWidth={true}
+            disabled={transactionLoading}
+            type="submit"
+            // icon="eth"
+            text="Withdraw"
+            size="large"
+            // text={
+            //   !transactionLoading ? (
+            //     "Confirm Deposit"
+            //   ) : (
+            //     <Loading spinnerColor="#2e7daf" />
+            //   )
+            // }
+          />
+          <Button
+            isFullWidth={true}
+            disabled={transactionLoading}
+            type="submit"
+            // icon="eth"
+            text="Deposit"
+            size="large"
+            // text={
+            //   !transactionLoading ? (
+            //     "Confirm Deposit"
+            //   ) : (
+            //     <Loading spinnerColor="#2e7daf" />
+            //   )
+            // }
+          />
+        </div>
+      </div>
       <StakeForm
+        txType={txType}
         handleDepositSubmit={handleDepositSubmit}
         transactionLoading={transactionLoading}
       />
