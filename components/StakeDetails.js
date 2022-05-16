@@ -148,6 +148,21 @@ export default function StakeDetails() {
         max={stakedBalance}
         curr={currency}
       />
+      <p>
+        The Monitor keeps an eye on your address to check if you receive any
+        staking rewards.
+      </p>
+      <p>
+        Deposit some ETH, and The Monitor will automatically swap the a mirror
+        amount of the staking rewards you receive, based on the criteria you set
+        on the order form. This way, you can sleep easy knowing that a portion
+        of your staking rewards stay tucked away in a stable coin! Pretty neat
+        isn't it?
+      </p>
+      <p>
+        The Monitor also keeps an history of the swaps it performs on your
+        behalf, to help with your bookkeeping and tax records.
+      </p>
     </div>
   )
 }
