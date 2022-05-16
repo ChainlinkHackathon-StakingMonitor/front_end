@@ -34,10 +34,11 @@ export default function Home() {
               <i>The Monitor</i> keeps an eye on your address to check if you
               receive any staking rewards. Deposit some ETH, set your order, and{" "}
               <i>The Monitor</i> will automatically swap a "mirror" amount of
-              the staking rewards you receive. This way, you can sleep easy
-              knowing that a portion of your staking rewards stays tucked away
-              in a stable coin, which you can withdraw whenever you want! Pretty
-              neat isn't it?
+              the staking rewards you receive for DAI (more tokens coming soon).
+              This way, you can sleep easy knowing that a portion of your
+              staking rewards stays tucked away in a stable coin, which you can
+              withdraw from our contract whenever you want! Pretty neat isn't
+              it?
               <i>The Monitor</i> also keeps an history of the swaps it performs
               on your behalf, to help with your bookkeeping and, God forbid, tax
               records.
