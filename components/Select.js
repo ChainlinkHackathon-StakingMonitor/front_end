@@ -57,6 +57,7 @@ const colourStyles = {
 
 const colourOptions = [
   { value: "0x4", label: "Rinkeby", color: "#d6aed6" },
+  { value: utils.hexValue(42), label: "Kovan", color: "#d6aed6" },
   { value: "0x1", label: "ETH Mainnet", color: "green" },
   { value: utils.hexValue(137), label: "Polygon", color: "grey" },
 ]
