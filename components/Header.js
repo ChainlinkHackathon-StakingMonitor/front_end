@@ -1,5 +1,7 @@
+import { utils } from "ethers"
+
 import { ConnectButton } from "web3uikit"
-import { useChain, useMoralis } from "react-moralis"
+import { useChain } from "react-moralis"
 import Select from "./Select"
 
 export default function Header() {
@@ -11,7 +13,7 @@ export default function Header() {
         <img alt="logo" src="/logo.png" height="50px" width="250px" />
       </h1>
       <div className="flex flex-col items-center px-4 py-2 ml-auto space-y-3 sm:space-y-0 sm:flex-row">
-        <Select onChange={(e) => switchNetwork(e.value)} />
+        <Select onChange={(e) => switchNetwork(utils.hexValue(e.value))} />
         <ConnectButton moralisAuth={false}></ConnectButton>
       </div>
     </nav>
