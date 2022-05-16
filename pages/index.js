@@ -1,5 +1,4 @@
-import { useState } from "react"
-import { useChain, useMoralis } from "react-moralis"
+import { useMoralis } from "react-moralis"
 import Header from "../components/Header"
 import History from "../components/History"
 import StakeDetails from "../components/StakeDetails"
@@ -45,7 +44,7 @@ export default function Home() {
         </div>
       ) : (
         <div className="p-10 text-2xl font-semibold">
-          Unsupported Network. Please switch to ones of{" "}
+          Unsupported Network. Please switch to one of{" "}
           {Object.values(addresses)
             .map((val) => val.name)
             .join(", ")}

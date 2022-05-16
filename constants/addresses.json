@@ -3,5 +3,10 @@
     "address": "0x538c56F811F317cf92Dd2143b1C46ED4c80D6825",
     "name": "Kovan",
     "currency": "ETH"
+  },
+  "42": {
+    "address": "0x538c56F811F317cf92Dd2143b1C46ED4c80D6825",
+    "name": "Kovan",
+    "currency": "ETH"
   }
 }

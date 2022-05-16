@@ -3,25 +3,23 @@
 // how much they want to stake
 // approve the reward token
 
-import { useState } from "react"
+import { useContext, useState } from "react"
 
 import { ethers } from "ethers"
-import { useMoralis } from "react-moralis"
 import { Input, Button, useNotification, Loading } from "web3uikit"
-import {
-  stakingMonitorAbi,
-  NETWORK_CURRENCY_TICKER,
-  addresses,
-} from "../constants"
+import { stakingMonitorAbi, NETWORK_CURRENCY_TICKER } from "../constants"
+import AppContext from "../store/AppContext"
 
 export default function StakeForm() {
-  const { chainId, account } = useMoralis()
+  const { network } = useContext(AppContext)
+
   const [sellValue, setSellValue] = useState(3000)
   const [percentageOfReward, setPercentageOfReward] = useState(40)
   const [isLoading, setIsLoading] = useState(false)
 
+  const { address } = network
+
   const dispatch = useNotification()
-  const { address } = addresses[parseInt(chainId).toString()]
 
   function handleOrderNotification(status, error = null) {
     dispatch({

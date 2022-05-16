@@ -2,25 +2,26 @@
 // how many are staked
 // how many tokens were earned
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 
-import { ethers, utils } from "ethers"
-import { useMoralis, useWeb3Contract, useChain } from "react-moralis"
+import { ethers } from "ethers"
+import { useMoralis, useWeb3Contract } from "react-moralis"
 import { Button, useNotification } from "web3uikit"
 
-import { addresses, stakingMonitorAbi } from "../constants"
+import { stakingMonitorAbi } from "../constants"
 import StakeForm from "./StakeForm"
+import AppContext from "../store/AppContext"
 
 export default function StakeDetails() {
-  const { account, isWeb3Enabled, chainId } = useMoralis()
+  const { network } = useContext(AppContext)
+  const { currency, address } = network
+
+  const { account, isWeb3Enabled } = useMoralis()
   const [stakedBalance, setStakedBalance] = useState("0")
   const [transactionLoading, setTransactionLoading] = useState(false)
-  // const [txType, setTxType] = useState("withdraw")
   const [isDeposit, setIsDeposit] = useState(true)
 
   const { runContractFunction } = useWeb3Contract()
-
-  const { address, currency } = addresses[parseInt(chainId).toString()]
 
   const { runContractFunction: getDepositBalance } = useWeb3Contract({
     abi: stakingMonitorAbi,
@@ -51,11 +52,11 @@ export default function StakeDetails() {
   }
 
   useEffect(() => {
-    if (isWeb3Enabled && account) {
+    if (isWeb3Enabled && account && Object.keys(network).length > 0) {
       console.log("ready")
       updateUiValues()
     }
-  }, [account, isWeb3Enabled])
+  }, [account, isWeb3Enabled, network])
 
   const dispatch = useNotification()
 
