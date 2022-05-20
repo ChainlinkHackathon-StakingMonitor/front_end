@@ -124,7 +124,7 @@ export default function StakeForm() {
             onChange={handleSellValue}
             // label="Sell when price of ETH reaches"
             type="range"
-            min="2000"
+            min="1000"
             max="4000"
             required
           />
