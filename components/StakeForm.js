@@ -6,7 +6,7 @@
 import { Button, Loading, Input } from "web3uikit"
 
 export default function StakeForm({
-  handleDepositSubmit,
+  handleDepositWithdrawalSubmit,
   transactionLoading,
   isDeposit,
   curr,
@@ -19,7 +19,7 @@ export default function StakeForm({
   }
 
   return (
-    <form className="my-4" onSubmit={handleDepositSubmit}>
+    <form className="my-4" onSubmit={handleDepositWithdrawalSubmit}>
       <div className="relative my-4">
         <Input
           style={{

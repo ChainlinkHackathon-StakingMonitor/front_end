@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useMoralis } from "react-moralis"
 import Header from "../components/Header"
 import History from "../components/History"
@@ -29,7 +30,7 @@ export default function Home() {
       <Header />
       {supportedChains.includes(userChainId) ? (
         <div className="grid grid-cols-1 gap-10 p-10 md:grid-cols-2">
-          <div className="p-10 bg-white rounded-xl opacity-90 col-span-2">
+          <div className="col-span-2 p-10 bg-white rounded-xl opacity-90">
             <p>
               <i>The Monitor</i> keeps an eye on your address to check if you
               receive any staking rewards. Deposit some ETH, set your order, and{" "}
@@ -38,7 +39,7 @@ export default function Home() {
               This way, you can sleep easy knowing that a portion of your
               staking rewards stays tucked away in a stable coin, that you can
               withdraw from our contract whenever you want! Pretty neat isn't
-              it?
+              it? &nbsp;
               <i>The Monitor</i> also keeps an history of the swaps it performs
               on your behalf, to help with your bookkeeping and, God forbid, tax
               records.
@@ -52,7 +53,7 @@ export default function Home() {
             {/* <OrderDetails /> */}
             <OrderForm />
           </div>
-          <div className="p-10 bg-white rounded-xl opacity-90 col-span-2">
+          <div className="col-span-2 p-10 bg-white rounded-xl opacity-90">
             {/* <OrderDetails /> */}
             <History />
           </div>

@@ -8,7 +8,7 @@ export default function Header() {
   const { switchNetwork } = useChain()
 
   return (
-    <nav className="flex flex-row justify-between p-5 pr-2">
+    <nav className="flex flex-row items-center justify-between p-5 pr-2">
       <h1 className="pl-3">
         <img alt="logo" src="/logo.png" height="50px" width="250px" />
       </h1>

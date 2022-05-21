@@ -6,12 +6,17 @@
 import { useContext, useState } from "react"
 
 import { ethers } from "ethers"
+
+import { useSnapshot } from "valtio"
+
 import { Input, Button, useNotification, Loading } from "web3uikit"
 import { stakingMonitorAbi, NETWORK_CURRENCY_TICKER } from "../constants"
 import AppContext from "../store/AppContext"
+import { state } from "../store/store"
 
 export default function StakeForm() {
   const { network } = useContext(AppContext)
+  const snapshot = useSnapshot(state)
 
   const [sellValue, setSellValue] = useState(3000)
   const [percentageOfReward, setPercentageOfReward] = useState(40)
@@ -33,8 +38,18 @@ export default function StakeForm() {
     })
   }
 
+  const balance = snapshot.balance
+
   async function handleOrderSubmit(e) {
     e.preventDefault()
+
+    if (parseFloat(balance) <= 0) {
+      handleOrderNotification(
+        "error",
+        "You need to make a deposit to set an order"
+      )
+      return
+    }
 
     let status
     let error
@@ -82,7 +97,7 @@ export default function StakeForm() {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold text-gray-500 text-center">
+      <h2 className="mb-4 text-2xl font-semibold text-center text-gray-500">
         Order Settings
       </h2>
       <hr className="mb-4" />
