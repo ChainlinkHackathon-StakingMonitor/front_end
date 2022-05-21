@@ -5,6 +5,21 @@
         "internalType": "address",
         "name": "_priceFeed",
         "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_DAIToken",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_uniswap",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_interval",
+        "type": "uint256"
       }
     ],
     "stateMutability": "nonpayable",
@@ -12,7 +27,17 @@
   },
   {
     "inputs": [],
-    "name": "StakeMonitor__UserHasntDepositedETH",
+    "name": "StakingMonitor_NotEnoughDAIInUsersBalance",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "StakingMonitor__NotEnoughETHInUsersBalance",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "StakingMonitor__UserHasntDepositedETH",
     "type": "error"
   },
   {
@@ -23,22 +48,212 @@
         "internalType": "address",
         "name": "user",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
       }
     ],
     "name": "Deposited",
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_address",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_requiredDepositAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "NotEnoughDepositedEthForSwap",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_address",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_timestamp",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_totalReward",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_setPriceLimit",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_DAIReceived",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_ETHPrice",
+        "type": "uint256"
+      }
+    ],
+    "name": "Swapped",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "WithdrawnDAI",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "WithdrawnETH",
+    "type": "event"
+  },
+  {
     "inputs": [],
-    "name": "checkLowestLimitUnderCurrentPrice",
+    "name": "DAIToken",
     "outputs": [
       {
-        "internalType": "bool",
+        "internalType": "contract IERC20",
         "name": "",
-        "type": "bool"
+        "type": "address"
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "addressesForSwap",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "currentBalance",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "previousBalance",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "orderPercentageToSwap",
+        "type": "uint256"
+      }
+    ],
+    "name": "calculateUserBalanceToSwap",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "totalToken",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "userBalanceToSwap",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "calculateUserSwapShare",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "checkConditionsAndPerformSwap",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -70,6 +285,19 @@
     "name": "deposit",
     "outputs": [],
     "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getDAIBalance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -151,19 +379,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "s_lowestPriceLimit",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "address",
@@ -171,8 +386,18 @@
         "type": "address"
       }
     ],
-    "name": "s_userInfos",
+    "name": "s_users",
     "outputs": [
+      {
+        "internalType": "bool",
+        "name": "created",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "enoughDepositForSwap",
+        "type": "bool"
+      },
       {
         "internalType": "uint256",
         "name": "depositBalance",
@@ -200,7 +425,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "latestBalance",
+        "name": "previousBalance",
         "type": "uint256"
       }
     ],
@@ -247,6 +472,77 @@
       }
     ],
     "name": "setOrder",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "swapEthForDAI",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalAmountToSwap",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalDAIFromSwap",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "uniswap",
+    "outputs": [
+      {
+        "internalType": "contract IUniswapV2",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "withdrawDAI",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
