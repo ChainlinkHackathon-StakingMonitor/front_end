@@ -183,7 +183,7 @@ export default function StakeDetails() {
         <p>
           Your Staking Balance is {stakedBalance} {currency}
         </p>
-        <div className="flex space-x-2">
+        <div className="flex flex-col space-y-2 md:space-x-2 md:flex-row">
           <Button
             isFullWidth={true}
             disabled={transactionLoading || isDeposit}

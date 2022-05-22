@@ -3,8 +3,6 @@ import { useMoralis } from "react-moralis"
 import Header from "../components/Header"
 import History from "../components/History"
 import StakeDetails from "../components/StakeDetails"
-// import StakeForm from "../components/StakeForm"
-// import OrderDetails from "../components/OrderDetails"
 import OrderForm from "../components/OrderForm"
 import { addresses } from "../constants"
 
@@ -29,8 +27,8 @@ export default function Home() {
     <div className="">
       <Header />
       {supportedChains.includes(userChainId) ? (
-        <div className="grid grid-cols-1 gap-10 p-10 md:grid-cols-2">
-          <div className="col-span-2 p-10 bg-white rounded-xl opacity-90">
+        <div className="block gap-10 p-5 md:grid md:grid-cols-2">
+          <div className="col-span-2 p-10 mb-8 bg-white md:mb-0 rounded-xl opacity-90">
             <p>
               <i>The Monitor</i> keeps an eye on your address to check if you
               receive any staking rewards. Deposit some ETH, set your order, and{" "}
@@ -45,11 +43,11 @@ export default function Home() {
               records.
             </p>
           </div>
-          <div className="p-10 bg-white rounded-xl opacity-90">
+          <div className="p-10 mb-8 bg-white md:mb-0 rounded-xl opacity-90">
             <StakeDetails />
             {/* <StakeForm /> */}
           </div>
-          <div className="p-10 bg-white rounded-xl opacity-90">
+          <div className="p-10 mb-8 bg-white md:mb-0 rounded-xl opacity-90">
             {/* <OrderDetails /> */}
             <OrderForm />
           </div>
