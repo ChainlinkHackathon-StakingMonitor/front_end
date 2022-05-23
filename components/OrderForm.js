@@ -114,7 +114,7 @@ export default function StakeForm() {
       <form className="my-4" onSubmit={handleOrderSubmit}>
         {/* <p></p> */}
         <div className="relative my-6">
-          <h3 className="text-lg text-gray-600">Swap:</h3>
+          <p>Swap:</p>
           <Input
             style={{
               // marginTop: "30px",
@@ -130,14 +130,12 @@ export default function StakeForm() {
             required
           />
           <p className="font-semibold text-center">
-            {percentageOfReward} % of reward
+            {percentageOfReward}% of reward
           </p>
         </div>
 
         <div className="relative my-6">
-          <h3 className="text-lg text-gray-600">
-            when {NETWORK_CURRENCY_TICKER} price is above:
-          </h3>
+          <p>when {NETWORK_CURRENCY_TICKER} price is above:</p>
           <Input
             style={{
               // marginTop: "30px",

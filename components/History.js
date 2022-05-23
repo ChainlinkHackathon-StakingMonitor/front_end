@@ -66,7 +66,7 @@ export default function History() {
         <div className="m">
           <Checkbox
             id="test-checkbox"
-            label="Show my Txns"
+            label="My History"
             name="Show user txns"
             onChange={() => setOnlyUser(!onlyUser)}
           />
