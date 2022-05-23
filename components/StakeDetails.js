@@ -42,10 +42,8 @@ export default function StakeDetails() {
 
   const formatBalances = (balanceFromContract) => {
     const bal = balanceFromContract ? balanceFromContract.toString() : 0
-    const formattedStakedBalanceFromContract = ethers.utils.formatUnits(
-      bal,
-      "ether"
-    )
+    const formattedStakedBalanceFromContract =
+      Math.round(ethers.utils.formatUnits(bal, "ether") * 1e4) / 1e4
 
     return formattedStakedBalanceFromContract
   }
@@ -197,7 +195,7 @@ export default function StakeDetails() {
       <hr className="mb-4" />
       <div className="flex flex-row items-center justify-between">
         <p>
-          Your Staking Balance is {stakedBalance} {currency}
+          Deposit Balance: {stakedBalance} {currency}
         </p>
         <div className="flex flex-col space-y-2 md:space-x-2 md:flex-row">
           <Button
@@ -206,7 +204,7 @@ export default function StakeDetails() {
             type="submit"
             // icon="eth"
             text="Deposit"
-            size="large"
+            // size="large"
             theme={isDeposit ? "primary" : "submit"}
             onClick={handleTxType}
           />
@@ -216,7 +214,7 @@ export default function StakeDetails() {
             type="submit"
             // icon="eth"
             text="Withdraw"
-            size="large"
+            // size="large"
             theme={!isDeposit ? "primary" : "submit"}
             onClick={handleTxType}
           />
@@ -230,7 +228,7 @@ export default function StakeDetails() {
         curr={currency}
       />
       <div className="flex items-center mt-10 space-x-2">
-        <p className="text-lg ">DAI BALANCE: {daiBalance}</p>
+        <p>DAI Balance: {daiBalance}</p>
         <Button
           // isFullWidth={true}
           disabled={daiBalance < 1}

@@ -164,7 +164,7 @@ export default function StakeForm() {
             disabled={isLoading || !user.enoughDepositForSwap}
             type="submit"
             icon="usdc"
-            size="large"
+            // size="large"
             text={
               !isLoading ? "Set Swap Order" : <Loading spinnerColor="#2e7daf" />
             }
