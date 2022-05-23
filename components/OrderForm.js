@@ -3,13 +3,13 @@
 // how much they want to stake
 // approve the reward token
 
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 
 import { ethers } from "ethers"
 
 import { useSnapshot } from "valtio"
 
-import { Input, Button, useNotification, Loading } from "web3uikit"
+import { Input, Button, useNotification, Loading, Tooltip } from "web3uikit"
 import { stakingMonitorAbi, NETWORK_CURRENCY_TICKER } from "../constants"
 import AppContext from "../store/AppContext"
 import { state } from "../store/store"
@@ -17,6 +17,10 @@ import { state } from "../store/store"
 export default function StakeForm() {
   const { network } = useContext(AppContext)
   const snapshot = useSnapshot(state)
+
+  const balance = snapshot.balance
+  const user = snapshot.user
+  // const userSellValue =
 
   const [sellValue, setSellValue] = useState(3000)
   const [percentageOfReward, setPercentageOfReward] = useState(40)
@@ -38,7 +42,13 @@ export default function StakeForm() {
     })
   }
 
-  const balance = snapshot.balance
+  useEffect(() => {
+    user.swapPercent
+      ? setPercentageOfReward(user.swapPercent)
+      : setPercentageOfReward(percentageOfReward)
+
+    user.priceLimit ? setSellValue(user.priceLimit) : setSellValue(sellValue)
+  }, [user.swapPercent, user.priceLimit])
 
   async function handleOrderSubmit(e) {
     e.preventDefault()
@@ -145,16 +155,21 @@ export default function StakeForm() {
           />
           <p className="font-semibold text-center">{sellValue} USD</p>
         </div>
-        <Button
-          isFullWidth={true}
-          disabled={isLoading}
-          type="submit"
-          icon="usdc"
-          size="large"
-          text={
-            !isLoading ? "Set Swap Order" : <Loading spinnerColor="#2e7daf" />
-          }
-        />
+        <Tooltip
+          content="You need to make a deposit to set an order"
+          position="top"
+        >
+          <Button
+            isFullWidth={true}
+            disabled={isLoading || !user.enoughDepositForSwap}
+            type="submit"
+            icon="usdc"
+            size="large"
+            text={
+              !isLoading ? "Set Swap Order" : <Loading spinnerColor="#2e7daf" />
+            }
+          />
+        </Tooltip>
       </form>
     </div>
   )
