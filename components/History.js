@@ -40,7 +40,9 @@ export default function History() {
     }
 
     if (onlyUser) {
-      historyData = historyData.filter((h) => h.account === account)
+      historyData = historyData.filter(
+        (h) => h.account.toLowerCase() === account.toLowerCase()
+      )
     }
 
     setHistory(historyData)

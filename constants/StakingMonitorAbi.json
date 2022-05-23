@@ -32,6 +32,11 @@
   },
   {
     "inputs": [],
+    "name": "StakingMonitor_UserDoesntHaveAccount",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "StakingMonitor__NotEnoughETHInUsersBalance",
     "type": "error"
   },
@@ -321,6 +326,61 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getUserData",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "created",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "enoughDepositForSwap",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint256",
+            "name": "depositBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "DAIBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "priceLimit",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "percentageToSwap",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "balanceToSwap",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "previousBalance",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct userData",
+        "name": "",
+        "type": "tuple"
       }
     ],
     "stateMutability": "view",

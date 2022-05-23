@@ -26,21 +26,15 @@ export default function StakeDetails() {
   const [isDeposit, setIsDeposit] = useState(true)
 
   const { runContractFunction } = useWeb3Contract()
-  const balanceOptions = {
+  const dispatch = useNotification()
+
+  const userOptions = {
     abi: stakingMonitorAbi,
     contractAddress: address,
-    functionName: "getDepositBalance",
-    params: {
-      account,
-    },
+    functionName: "getUserData",
   }
-  const { runContractFunction: getDepositBalance } =
-    useWeb3Contract(balanceOptions)
 
-  const { runContractFunction: getDAIBalance } = useWeb3Contract({
-    ...balanceOptions,
-    functionName: "getDAIBalance",
-  })
+  const { runContractFunction: getUserData } = useWeb3Contract(userOptions)
 
   const handleTxType = (tx) => {
     setIsDeposit(!isDeposit)
@@ -56,19 +50,43 @@ export default function StakeDetails() {
     return formattedStakedBalanceFromContract
   }
 
+  const formatPrice = (balanceFromContract) => {
+    const bal = balanceFromContract ? balanceFromContract.toString() : 0
+    const formattedPrice = parseInt(bal) / 1e8
+    return formattedPrice
+  }
+
   async function updateUiValues() {
-    const balanceFromContract = await getDepositBalance({
-      onError: (error) => console.log(error),
+    const userData = await getUserData({
+      onError: (error) => {
+        console.log(error)
+
+        dispatch({
+          type: "error",
+          message: `Error fetching data": ${
+            error.message ? error.message : error
+          }`,
+          title: "Error",
+          position: "topL",
+          icon: "bell",
+        })
+      },
     })
 
-    const daiBalanceFromContract = await getDAIBalance({
-      onError: (error) => console.log(error),
-    })
+    const formattedStakedBalance = formatBalances(userData.depositBalance)
+    const formattedDAI = formatBalances(userData.DAIBalance)
 
-    const formattedStakedBalance = formatBalances(balanceFromContract)
-    const formattedDAI = formatBalances(daiBalanceFromContract)
+    const user = {
+      DAIBalance: formattedDAI,
+      depositBalance: formattedStakedBalance,
+      priceLimit: formatPrice(userData.priceLimit),
+      swapPercent: parseInt(userData.percentageToSwap.toString()),
+      enoughDepositForSwap: userData.enoughDepositForSwap,
+    }
 
     state.balance = formattedStakedBalance
+    state.user = user
+
     setDAIBalance(formattedDAI)
     setStakedBalance(formattedStakedBalance)
   }
@@ -79,8 +97,6 @@ export default function StakeDetails() {
       updateUiValues()
     }
   }, [account, isWeb3Enabled, network])
-
-  const dispatch = useNotification()
 
   let depositOptions = {
     abi: stakingMonitorAbi,
