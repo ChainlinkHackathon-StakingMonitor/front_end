@@ -12,13 +12,13 @@ export default function Header() {
       <h1 className="pl-3">
         <picture className="w-[250px] h-[50px] min-h-[50px]">
           <source
-            media="(min-width: 500px)"
+            media="(min-width: 570px)"
             height="50px"
             width="250px"
             srcSet="/logo.png"
           />
           <source
-            media="(max-width: 500px)"
+            media="(max-width: 570px)"
             className="w-[80px]"
             srcSet="/logo-sm.png"
           />
