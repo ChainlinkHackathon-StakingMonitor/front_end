@@ -28,7 +28,23 @@ export default function Home() {
       <Header />
       {supportedChains.includes(userChainId) ? (
         <div className="block gap-10 p-5 md:grid md:grid-cols-2">
+          <div className="p-10 mb-8 bg-white md:mb-0 rounded-xl opacity-90">
+            <StakeDetails />
+            {/* <StakeForm /> */}
+          </div>
+          <div className="p-10 mb-8 bg-white md:mb-0 rounded-xl opacity-90">
+            {/* <OrderDetails /> */}
+            <OrderForm />
+          </div>
+          <div className="col-span-2 p-10 bg-white rounded-xl opacity-90">
+            {/* <OrderDetails /> */}
+            <History />
+          </div>
           <div className="col-span-2 p-10 mb-8 bg-white md:mb-0 rounded-xl opacity-90">
+            <h2 className="mb-4 text-2xl font-semibold text-center text-gray-500">
+              About <i>The Monitor</i>
+            </h2>
+            <hr className="mb-4" />
             <p>
               <i>The Monitor</i> keeps an eye on your address to check if you
               receive any staking rewards. Deposit some ETH, set your order, and{" "}
@@ -42,18 +58,6 @@ export default function Home() {
               on your behalf, to help with your bookkeeping and, God forbid, tax
               records.
             </p>
-          </div>
-          <div className="p-10 mb-8 bg-white md:mb-0 rounded-xl opacity-90">
-            <StakeDetails />
-            {/* <StakeForm /> */}
-          </div>
-          <div className="p-10 mb-8 bg-white md:mb-0 rounded-xl opacity-90">
-            {/* <OrderDetails /> */}
-            <OrderForm />
-          </div>
-          <div className="col-span-2 p-10 bg-white rounded-xl opacity-90">
-            {/* <OrderDetails /> */}
-            <History />
           </div>
         </div>
       ) : (
