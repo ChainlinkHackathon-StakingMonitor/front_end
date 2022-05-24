@@ -211,7 +211,7 @@ export default function StakeDetails() {
             // type="submit"
             icon="plus"
             text="Deposit"
-            //size="large"
+            // size="large"
             theme={isDeposit ? "primary" : "submit"}
             onClick={handleTxType}
           />
@@ -221,7 +221,7 @@ export default function StakeDetails() {
             // type="submit"
             icon="minus"
             text="Withdraw"
-            //size="large"
+            // size="large"
             theme={!isDeposit ? "primary" : "submit"}
             onClick={handleTxType}
           />
