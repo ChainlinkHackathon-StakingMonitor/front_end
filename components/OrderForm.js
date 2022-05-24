@@ -113,13 +113,12 @@ export default function StakeForm() {
       </h2>
       <hr className="mb-4" />
       <form className="my-4" onSubmit={handleOrderSubmit}>
-        {/* <p></p> */}
-        {user.enoughBalanceToSwap === true && (
+        {user.balanceRequired > 0 && (
           <div
-            class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
+            className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
             role="alert"
           >
-            <p class="font-bold">Warning</p>
+            <p className="font-bold">Warning</p>
 
             <p>
               You do not have enough deposit balance to performs the next swap.
