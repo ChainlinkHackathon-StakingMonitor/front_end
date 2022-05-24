@@ -42,8 +42,10 @@ export default function StakeDetails() {
 
   const formatBalances = (balanceFromContract) => {
     const bal = balanceFromContract ? balanceFromContract.toString() : 0
-    const formattedStakedBalanceFromContract =
-      Math.round(ethers.utils.formatUnits(bal, "ether") * 1e4) / 1e4
+    const formattedStakedBalanceFromContract = ethers.utils.formatUnits(
+      bal,
+      "ether"
+    )
 
     return formattedStakedBalanceFromContract
   }
@@ -172,7 +174,7 @@ export default function StakeDetails() {
         ...depositOptions,
         functionName: "withdrawDAI",
         params: {
-          _amount: ethers.utils.parseUnits(daiBalance).toString(),
+          _amount: ethers.utils.parseUnits(daiBalance.toString()).toString(),
         },
       },
       onError: (mmError) => {
@@ -200,7 +202,7 @@ export default function StakeDetails() {
       <hr className="mb-4" />
       <div className="flex flex-row items-center justify-between">
         <p>
-          Deposit Balance: {stakedBalance} {currency}
+          Deposit Balance: {Math.round(stakedBalance * 1e4) / 1e4} {currency}
         </p>
         <div className="flex flex-col space-y-2 md:space-x-2 md:flex-row">
           <Button
@@ -233,7 +235,7 @@ export default function StakeDetails() {
         curr={currency}
       />
       <div className="flex items-center mt-10 space-x-2">
-        <p>DAI Balance: {daiBalance}</p>
+        <p>DAI Balance: {Math.round(daiBalance * 100) / 100}</p>
         <Button
           // isFullWidth={true}
           disabled={daiBalance < 1}
