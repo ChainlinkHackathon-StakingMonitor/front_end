@@ -14,7 +14,7 @@ import AppContext from "../store/AppContext"
 export default function History() {
   const { account, isWeb3Enabled, chainId } = useMoralis()
   const [history, setHistory] = useState([])
-  const [onlyUser, setOnlyUser] = useState(false)
+  const [onlyUser, setOnlyUser] = useState(true)
   const { network } = useContext(AppContext)
 
   const { currency, address, name } = network
@@ -58,19 +58,18 @@ export default function History() {
 
   return (
     <div className="overflow-x-scroll">
-      <div className="relative flex items-center justify-between w-full mb-4">
-        <div></div>
-        <h2 className="text-2xl font-semibold text-center text-gray-500 ">
+      <div>
+        <h2 className="mb-4 text-2xl font-semibold text-center text-gray-500">
           History
         </h2>
-        <div className="m">
+        {/* <div className="m">
           <Checkbox
             id="test-checkbox"
             label="My History"
             name="Show user txns"
             onChange={() => setOnlyUser(!onlyUser)}
           />
-        </div>
+        </div> */}
       </div>
       <hr className="mb-4" />
       <div className="inline-block min-w-full pt-3 overflow-hidden align-middle bg-white rounded-bl-lg rounded-br-lg shadow shadow-dashboard">

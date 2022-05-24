@@ -204,24 +204,24 @@ export default function StakeDetails() {
         <p>
           Deposit Balance: {Math.round(stakedBalance * 1e4) / 1e4} {currency}
         </p>
-        <div className="flex flex-col space-y-2 md:space-x-2 md:flex-row">
+        <div className="flex flex-col md:space-y-0 sm:space-y-2 xs:space-y-2 md:space-x-2 md:flex-row">
           <Button
             isFullWidth={true}
             disabled={transactionLoading || isDeposit}
-            type="submit"
-            // icon="eth"
+            // type="submit"
+            icon="plus"
             text="Deposit"
-            size="large"
+            //size="large"
             theme={isDeposit ? "primary" : "submit"}
             onClick={handleTxType}
           />
           <Button
             isFullWidth={true}
             disabled={transactionLoading || !isDeposit}
-            type="submit"
-            // icon="eth"
+            // type="submit"
+            icon="minus"
             text="Withdraw"
-            size="large"
+            //size="large"
             theme={!isDeposit ? "primary" : "submit"}
             onClick={handleTxType}
           />
