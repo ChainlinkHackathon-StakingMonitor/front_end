@@ -64,7 +64,9 @@ const fetchHistory = async (chainId, contractAddress) => {
       throw new Error(error_message)
     }
 
-    return eventData
+    return eventData.sort((x, y) => {
+      return y.timestamp - x.timestamp
+    })
   } catch (error) {
     console.log({ error })
     // use the server error response if available

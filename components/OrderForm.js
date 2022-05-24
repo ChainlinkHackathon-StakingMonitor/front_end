@@ -109,7 +109,7 @@ export default function StakeForm() {
   return (
     <div>
       <h2 className="mb-4 text-2xl font-semibold text-center text-gray-500">
-        Order Settings
+        Swap Conditions
       </h2>
       <hr className="mb-4" />
       <form className="my-4" onSubmit={handleOrderSubmit}>
@@ -128,7 +128,10 @@ export default function StakeForm() {
           </div>
         )}
         <div className="relative my-6">
-          <p>Swap:</p>
+          <p className="text-center">Swap</p>
+          <p className="font-semibold text-center">
+            {percentageOfReward}% of each reward
+          </p>
           <Input
             style={{
               // marginTop: "30px",
@@ -143,13 +146,13 @@ export default function StakeForm() {
             max="100"
             required
           />
-          <p className="font-semibold text-center">
-            {percentageOfReward}% of reward
-          </p>
         </div>
 
         <div className="relative my-6">
-          <p>when {NETWORK_CURRENCY_TICKER} price is above:</p>
+          <p className="text-center">
+            if {NETWORK_CURRENCY_TICKER} price is above
+          </p>
+          <p className="font-semibold text-center">{sellValue} USD</p>
           <Input
             style={{
               // marginTop: "30px",
@@ -165,7 +168,6 @@ export default function StakeForm() {
             max="4000"
             required
           />
-          <p className="font-semibold text-center">{sellValue} USD</p>
         </div>
         <Tooltip
           content="You need to make a deposit to set an order"
@@ -176,7 +178,7 @@ export default function StakeForm() {
             disabled={isLoading || !user.created}
             type="submit"
             icon="usdc"
-            // size="large"
+            size="large"
             text={
               !isLoading ? "Set Swap Order" : <Loading spinnerColor="#2e7daf" />
             }

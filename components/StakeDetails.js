@@ -241,6 +241,7 @@ export default function StakeDetails() {
           disabled={daiBalance < 1}
           type="submit"
           icon="metamask"
+          size="large"
           // text="Withdraw"
           text={
             !withdrawalTxnLoading ? (
