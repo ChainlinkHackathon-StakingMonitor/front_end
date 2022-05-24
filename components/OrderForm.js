@@ -20,6 +20,7 @@ export default function StakeForm() {
 
   const balance = snapshot.balance
   const user = snapshot.user
+  console.log(user)
   // const userSellValue =
 
   const [sellValue, setSellValue] = useState(3000)
@@ -52,7 +53,7 @@ export default function StakeForm() {
 
   async function handleOrderSubmit(e) {
     e.preventDefault()
-
+    console.log
     if (parseFloat(balance) <= 0) {
       handleOrderNotification(
         "error",
@@ -113,6 +114,20 @@ export default function StakeForm() {
       <hr className="mb-4" />
       <form className="my-4" onSubmit={handleOrderSubmit}>
         {/* <p></p> */}
+        {user.enoughBalanceToSwap === true && (
+          <div
+            class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
+            role="alert"
+          >
+            <p class="font-bold">Warning</p>
+
+            <p>
+              You do not have enough deposit balance to performs the next swap.
+              Please deposit {user.balanceRequired} at your earliest
+              convenience.
+            </p>
+          </div>
+        )}
         <div className="relative my-6">
           <p>Swap:</p>
           <Input
@@ -159,7 +174,7 @@ export default function StakeForm() {
         >
           <Button
             isFullWidth={true}
-            disabled={isLoading || !user.enoughDepositForSwap}
+            disabled={isLoading || !user.created}
             type="submit"
             icon="usdc"
             // size="large"

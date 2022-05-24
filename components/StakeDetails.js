@@ -73,6 +73,9 @@ export default function StakeDetails() {
 
     const formattedStakedBalance = formatBalances(userData.depositBalance)
     const formattedDAI = formatBalances(userData.DAIBalance)
+    const formattedBalanceRequired = formatBalances(
+      userData.balanceToSwap - userData.depositBalance
+    )
 
     const user = {
       DAIBalance: formattedDAI,
@@ -80,6 +83,8 @@ export default function StakeDetails() {
       priceLimit: formatPrice(userData.priceLimit),
       swapPercent: parseInt(userData.percentageToSwap.toString()),
       enoughDepositForSwap: userData.enoughDepositForSwap,
+      balanceRequired: formattedBalanceRequired,
+      created: userData.created,
     }
 
     state.balance = formattedStakedBalance
