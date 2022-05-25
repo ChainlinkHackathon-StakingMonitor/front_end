@@ -43,7 +43,7 @@ export default function StakeForm({
         disabled={transactionLoading}
         type="submit"
         icon="eth"
-        // size="large"
+        size="large"
         text={
           !transactionLoading ? (
             // `Confirm Deposit`

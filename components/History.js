@@ -14,7 +14,7 @@ import AppContext from "../store/AppContext"
 export default function History() {
   const { account, isWeb3Enabled, chainId } = useMoralis()
   const [history, setHistory] = useState([])
-  const [onlyUser, setOnlyUser] = useState(false)
+  const [onlyUser, setOnlyUser] = useState(true)
   const { network } = useContext(AppContext)
 
   const { currency, address, name } = network
@@ -58,19 +58,18 @@ export default function History() {
 
   return (
     <div className="overflow-x-scroll">
-      <div className="relative flex items-center justify-between w-full mb-4">
-        <div></div>
-        <h2 className="text-2xl font-semibold text-center text-gray-500 ">
+      <div>
+        <h2 className="mb-4 text-2xl font-semibold text-center text-gray-500">
           History
         </h2>
-        <div className="m">
+        {/* <div className="m">
           <Checkbox
             id="test-checkbox"
-            label="Show my Txns"
+            label="My History"
             name="Show user txns"
             onChange={() => setOnlyUser(!onlyUser)}
           />
-        </div>
+        </div> */}
       </div>
       <hr className="mb-4" />
       <div className="inline-block min-w-full pt-3 overflow-hidden align-middle bg-white rounded-bl-lg rounded-br-lg shadow shadow-dashboard">
@@ -81,19 +80,16 @@ export default function History() {
                 Date/Time
               </th>
               <th className="px-6 py-3 text-sm leading-4 tracking-wider text-left text-blue-500 border-b-2 border-gray-300">
-                Value Swapped
+                {currency} Swapped
+              </th>
+              <th className="px-6 py-3 text-sm leading-4 tracking-wider text-left text-blue-500 border-b-2 border-gray-300">
+                DAI Received
               </th>
               <th className="px-6 py-3 text-sm leading-4 tracking-wider text-left text-blue-500 border-b-2 border-gray-300">
                 {currency} Price
               </th>
               <th className="px-6 py-3 text-sm leading-4 tracking-wider text-left text-blue-500 border-b-2 border-gray-300">
-                Price Limit
-              </th>
-              <th className="px-6 py-3 text-sm leading-4 tracking-wider text-left text-blue-500 border-b-2 border-gray-300">
-                DAI Amount
-              </th>
-              <th className="px-6 py-3 text-sm leading-4 tracking-wider text-left text-blue-500 border-b-2 border-gray-300">
-                Network
+                Swap Order Price Limit
               </th>
               <th className="px-6 py-3 border-b-2 border-gray-300"></th>
             </tr>
@@ -119,19 +115,15 @@ export default function History() {
                     </div>
                   </td>
                   <td className="px-6 py-4 text-sm leading-5 text-blue-900 whitespace-no-wrap border-b border-gray-500">
+                    {/* decimal 18 */}
+                    {parseInt(h.daiReceived) / 1e18}
+                  </td>
+                  <td className="px-6 py-4 text-sm leading-5 text-blue-900 whitespace-no-wrap border-b border-gray-500">
                     {/* decimal 8 */}
                     {parseInt(h.ethPrice) / 1e8}
                   </td>
                   <td className="px-6 py-4 text-sm leading-5 text-blue-900 whitespace-no-wrap border-b border-gray-500">
                     {parseInt(h.priceLimit) / 1e8}
-                  </td>
-                  <td className="px-6 py-4 text-sm leading-5 text-blue-900 whitespace-no-wrap border-b border-gray-500">
-                    {/* decimal 18 */}
-                    {parseInt(h.daiReceived) / 1e18}
-                  </td>
-                  <td className="px-6 py-4 text-sm leading-5 text-blue-900 whitespace-no-wrap border-b border-gray-500">
-                    {/* decimal 18 */}
-                    {name}
                   </td>
                   <td className="px-6 py-4 text-sm leading-5 text-right whitespace-no-wrap border-b border-gray-500">
                     <a
@@ -140,7 +132,7 @@ export default function History() {
                       rel="noreferrer"
                     >
                       <button className="px-5 py-2 text-sm text-blue-500 transition duration-300 border border-blue-500 rounded hover:bg-blue-700 hover:text-white focus:outline-none">
-                        View Details
+                        View Transaction
                       </button>
                     </a>
                   </td>

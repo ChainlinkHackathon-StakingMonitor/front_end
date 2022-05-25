@@ -20,6 +20,7 @@ export default function StakeForm() {
 
   const balance = snapshot.balance
   const user = snapshot.user
+  console.log(user)
   // const userSellValue =
 
   const [sellValue, setSellValue] = useState(3000)
@@ -52,7 +53,7 @@ export default function StakeForm() {
 
   async function handleOrderSubmit(e) {
     e.preventDefault()
-
+    console.log
     if (parseFloat(balance) <= 0) {
       handleOrderNotification(
         "error",
@@ -108,13 +109,29 @@ export default function StakeForm() {
   return (
     <div>
       <h2 className="mb-4 text-2xl font-semibold text-center text-gray-500">
-        Order Settings
+        Swap Conditions
       </h2>
       <hr className="mb-4" />
       <form className="my-4" onSubmit={handleOrderSubmit}>
-        {/* <p></p> */}
+        {user.balanceRequired > 0 && (
+          <div
+            className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
+            role="alert"
+          >
+            <p className="font-bold">Warning</p>
+
+            <p>
+              You do not have enough deposit balance to performs the next swap.
+              Please deposit {Math.round(user.balanceRequired * 1e4) / 1e4} at
+              your earliest convenience.
+            </p>
+          </div>
+        )}
         <div className="relative my-6">
-          <h3 className="text-lg text-gray-600">Swap:</h3>
+          <p className="text-center">Swap</p>
+          <p className="font-semibold text-center">
+            {percentageOfReward}% of each reward
+          </p>
           <Input
             style={{
               // marginTop: "30px",
@@ -129,15 +146,13 @@ export default function StakeForm() {
             max="100"
             required
           />
-          <p className="font-semibold text-center">
-            {percentageOfReward} % of reward
-          </p>
         </div>
 
         <div className="relative my-6">
-          <h3 className="text-lg text-gray-600">
-            when {NETWORK_CURRENCY_TICKER} price is above:
-          </h3>
+          <p className="text-center">
+            if {NETWORK_CURRENCY_TICKER} price is above
+          </p>
+          <p className="font-semibold text-center">{sellValue} USD</p>
           <Input
             style={{
               // marginTop: "30px",
@@ -153,7 +168,6 @@ export default function StakeForm() {
             max="4000"
             required
           />
-          <p className="font-semibold text-center">{sellValue} USD</p>
         </div>
         <Tooltip
           content="You need to make a deposit to set an order"
@@ -161,7 +175,7 @@ export default function StakeForm() {
         >
           <Button
             isFullWidth={true}
-            disabled={isLoading || !user.enoughDepositForSwap}
+            disabled={isLoading || !user.created}
             type="submit"
             icon="usdc"
             size="large"

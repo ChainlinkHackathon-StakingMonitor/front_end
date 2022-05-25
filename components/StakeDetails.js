@@ -75,6 +75,9 @@ export default function StakeDetails() {
 
     const formattedStakedBalance = formatBalances(userData.depositBalance)
     const formattedDAI = formatBalances(userData.DAIBalance)
+    const formattedBalanceRequired = formatBalances(
+      userData.balanceToSwap - userData.depositBalance
+    )
 
     const user = {
       DAIBalance: formattedDAI,
@@ -82,6 +85,8 @@ export default function StakeDetails() {
       priceLimit: formatPrice(userData.priceLimit),
       swapPercent: parseInt(userData.percentageToSwap.toString()),
       enoughDepositForSwap: userData.enoughDepositForSwap,
+      balanceRequired: formattedBalanceRequired,
+      created: userData.created,
     }
 
     state.balance = formattedStakedBalance
@@ -169,7 +174,7 @@ export default function StakeDetails() {
         ...depositOptions,
         functionName: "withdrawDAI",
         params: {
-          _amount: ethers.utils.parseUnits(daiBalance).toString(),
+          _amount: ethers.utils.parseUnits(daiBalance.toString()).toString(),
         },
       },
       onError: (mmError) => {
@@ -197,26 +202,26 @@ export default function StakeDetails() {
       <hr className="mb-4" />
       <div className="flex flex-row items-center justify-between">
         <p>
-          Your Staking Balance is {stakedBalance} {currency}
+          Deposit Balance: {Math.round(stakedBalance * 1e4) / 1e4} {currency}
         </p>
-        <div className="flex flex-col space-y-2 md:space-x-2 md:flex-row">
+        <div className="flex flex-col md:space-y-0 sm:space-y-2 xs:space-y-2 md:space-x-2 md:flex-row">
           <Button
             isFullWidth={true}
             disabled={transactionLoading || isDeposit}
-            type="submit"
-            // icon="eth"
+            // type="submit"
+            icon="plus"
             text="Deposit"
-            size="large"
+            // size="large"
             theme={isDeposit ? "primary" : "submit"}
             onClick={handleTxType}
           />
           <Button
             isFullWidth={true}
             disabled={transactionLoading || !isDeposit}
-            type="submit"
-            // icon="eth"
+            // type="submit"
+            icon="minus"
             text="Withdraw"
-            size="large"
+            // size="large"
             theme={!isDeposit ? "primary" : "submit"}
             onClick={handleTxType}
           />
@@ -230,12 +235,13 @@ export default function StakeDetails() {
         curr={currency}
       />
       <div className="flex items-center mt-10 space-x-2">
-        <p className="text-lg ">DAI BALANCE: {daiBalance}</p>
+        <p>DAI Balance: {Math.round(daiBalance * 100) / 100}</p>
         <Button
           // isFullWidth={true}
           disabled={daiBalance < 1}
           type="submit"
           icon="metamask"
+          size="large"
           // text="Withdraw"
           text={
             !withdrawalTxnLoading ? (
