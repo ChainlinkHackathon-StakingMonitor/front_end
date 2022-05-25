@@ -16,7 +16,7 @@ export default function Home() {
     return (
       <>
         <Header />
-        <div className="p-10 text-2xl font-semibold">
+        <div className="p-10 text-2xl font-semibold text-white">
           Please connect your wallet to continue
         </div>
       </>
@@ -61,7 +61,7 @@ export default function Home() {
           </div>
         </div>
       ) : (
-        <div className="p-10 text-2xl font-semibold">
+        <div className="p-10 text-2xl font-semibold text-white">
           Unsupported Network. Please switch to one of{" "}
           {Object.values(addresses)
             .map((val) => val.name)
