@@ -60,7 +60,7 @@ const colourStyles = {
 const colourOptions = [
   { value: 4, label: "Rinkeby", color: "#d6aed6" },
   // { value: 1, label: "ETH Mainnet", color: "green" },
-  // { value: 137, label: "Polygon", color: "grey" },
+  // { value: 80001, label: "Mumbai", color: "grey" },
   { value: 42, label: "Kovan", color: "red" },
 ]
 

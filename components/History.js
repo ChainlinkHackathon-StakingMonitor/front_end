@@ -17,7 +17,7 @@ export default function History() {
   const [onlyUser, setOnlyUser] = useState(true)
   const { network } = useContext(AppContext)
 
-  const { currency, address, name } = network
+  const { currency, address } = network
 
   const dispatch = useNotification()
 
@@ -60,16 +60,16 @@ export default function History() {
     <div className="overflow-x-scroll">
       <div>
         <h2 className="mb-4 text-2xl font-semibold text-center text-gray-500">
-          History
+          {onlyUser ? "My History" : "History"}
         </h2>
-        {/* <div className="m">
+        <div className="m">
           <Checkbox
             id="test-checkbox"
-            label="My History"
+            label="Show all Transactions"
             name="Show user txns"
             onChange={() => setOnlyUser(!onlyUser)}
           />
-        </div> */}
+        </div>
       </div>
       <hr className="mb-4" />
       <div className="inline-block min-w-full pt-3 overflow-hidden align-middle bg-white rounded-bl-lg rounded-br-lg shadow shadow-dashboard">

@@ -20,7 +20,6 @@ export default function StakeForm() {
 
   const balance = snapshot.balance
   const user = snapshot.user
-  console.log(user)
   // const userSellValue =
 
   const [sellValue, setSellValue] = useState(3000)
@@ -115,7 +114,7 @@ export default function StakeForm() {
       <form className="my-4" onSubmit={handleOrderSubmit}>
         {user.balanceRequired > 0 && (
           <div
-            className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
+            className="p-4 text-orange-700 bg-orange-100 border-l-4 border-orange-500"
             role="alert"
           >
             <p className="font-bold">Warning</p>

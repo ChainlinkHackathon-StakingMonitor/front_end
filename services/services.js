@@ -60,7 +60,6 @@ const fetchHistory = async (chainId, contractAddress) => {
     })
 
     if (error) {
-      console.log({ data })
       throw new Error(error_message)
     }
 
@@ -71,6 +70,12 @@ const fetchHistory = async (chainId, contractAddress) => {
     console.log({ error })
     // use the server error response if available
     if (error.response) {
+      if (error.message) {
+        return {
+          error: true,
+          message: error.message,
+        }
+      }
       const serverMessage = error.response.data.error_message
 
       // throw new Error(serverMessage)
