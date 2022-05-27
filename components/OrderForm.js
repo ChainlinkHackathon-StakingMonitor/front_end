@@ -112,6 +112,16 @@ export default function StakeForm() {
       </h2>
       <hr className="mb-4" />
       <form className="my-4" onSubmit={handleOrderSubmit}>
+        {user.depositBalance <= 0 && (
+          <div
+            className="p-4 text-blue-700 bg-blue-100 border-l-4 border-blue-500"
+            role="alert"
+          >
+            <p className="font-bold">Notice</p>
+
+            <p>You need to make a deposit before setting a swap order.</p>
+          </div>
+        )}
         {user.balanceRequired > 0 && (
           <div
             className="p-4 text-orange-700 bg-orange-100 border-l-4 border-orange-500"
@@ -168,21 +178,21 @@ export default function StakeForm() {
             required
           />
         </div>
-        <Tooltip
+        {/* <Tooltip
           content="You need to make a deposit to set an order"
           position="top"
-        >
-          <Button
-            isFullWidth={true}
-            disabled={isLoading || !user.created}
-            type="submit"
-            icon="usdc"
-            size="large"
-            text={
-              !isLoading ? "Set Swap Order" : <Loading spinnerColor="#2e7daf" />
-            }
-          />
-        </Tooltip>
+          > */}
+        <Button
+          isFullWidth={true}
+          disabled={isLoading || !user.created}
+          type="submit"
+          icon="usdc"
+          size="large"
+          text={
+            !isLoading ? "Set Swap Order" : <Loading spinnerColor="#2e7daf" />
+          }
+        />
+        {/* </Tooltip> */}
       </form>
     </div>
   )
