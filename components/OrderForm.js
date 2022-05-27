@@ -162,7 +162,7 @@ export default function StakeForm() {
             value={percentageOfReward}
             onChange={handlePercentageOfReward}
             type="range"
-            min="5"
+            min="0"
             max="100"
             required
           />
