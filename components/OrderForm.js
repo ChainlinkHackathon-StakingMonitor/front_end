@@ -112,7 +112,17 @@ export default function StakeForm() {
       </h2>
       <hr className="mb-4" />
       <form className="my-4" onSubmit={handleOrderSubmit}>
-        {user.depositBalance <= 0 && (
+        {user.percentageToSwap <= 0 && user.depositBalance > 0 && (
+          <div
+            className="p-4 text-blue-700 bg-blue-100 border-l-4 border-blue-500"
+            role="alert"
+          >
+            <p className="font-bold">Notice</p>
+
+            <p>You haven't set a swap order yet.</p>
+          </div>
+        )}
+        {user.depositBalance === 0 && (
           <div
             className="p-4 text-blue-700 bg-blue-100 border-l-4 border-blue-500"
             role="alert"

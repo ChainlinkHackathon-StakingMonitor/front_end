@@ -84,10 +84,13 @@ export default function StakeDetails() {
       depositBalance: formattedStakedBalance,
       priceLimit: formatPrice(userData.priceLimit),
       swapPercent: parseInt(userData.percentageToSwap.toString()),
+      percentageToSwap: parseInt(userData.percentageToSwap.toString()),
       enoughDepositForSwap: userData.enoughDepositForSwap,
       balanceRequired: formattedBalanceRequired,
       created: userData.created,
     }
+
+    console.log(user.percentageToSwap)
 
     state.balance = formattedStakedBalance
     state.user = user
