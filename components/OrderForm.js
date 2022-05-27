@@ -141,8 +141,9 @@ export default function StakeForm() {
 
             <p>
               You do not have enough deposit balance to performs the next swap.
-              Please deposit {Math.round(user.balanceRequired * 1e4) / 1e4} at
-              your earliest convenience.
+              Please deposit at least{" "}
+              {Math.round(user.balanceRequired * 1e4) / 1e4}{" "}
+              {NETWORK_CURRENCY_TICKER} at your earliest convenience.
             </p>
           </div>
         )}
