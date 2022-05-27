@@ -86,7 +86,7 @@ export default function StakeDetails() {
       swapPercent: parseInt(userData.percentageToSwap.toString()),
       percentageToSwap: parseInt(userData.percentageToSwap.toString()),
       enoughDepositForSwap: userData.enoughDepositForSwap,
-      balanceRequired: formattedBalanceRequired,
+      balanceRequired: parseFloat(formattedBalanceRequired),
       created: userData.created,
     }
 

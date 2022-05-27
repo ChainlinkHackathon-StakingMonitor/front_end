@@ -9,8 +9,8 @@ import { ethers } from "ethers"
 
 import { useSnapshot } from "valtio"
 
-import { Input, Button, useNotification, Loading, Tooltip } from "web3uikit"
-import { stakingMonitorAbi, NETWORK_CURRENCY_TICKER } from "../constants"
+import { Input, Button, useNotification, Loading } from "web3uikit"
+import { stakingMonitorAbi } from "../constants"
 import AppContext from "../store/AppContext"
 import { state } from "../store/store"
 
@@ -25,8 +25,9 @@ export default function StakeForm() {
   const [sellValue, setSellValue] = useState(3000)
   const [percentageOfReward, setPercentageOfReward] = useState(40)
   const [isLoading, setIsLoading] = useState(false)
+  const [hasNotSetOrder, setHasNotSetOrder] = useState(false)
 
-  const { address } = network
+  const { address, currency } = network
 
   const dispatch = useNotification()
 
@@ -41,7 +42,6 @@ export default function StakeForm() {
       icon: "bell",
     })
   }
-
   useEffect(() => {
     user.swapPercent
       ? setPercentageOfReward(user.swapPercent)
@@ -50,9 +50,14 @@ export default function StakeForm() {
     user.priceLimit ? setSellValue(user.priceLimit) : setSellValue(sellValue)
   }, [user.swapPercent, user.priceLimit])
 
+  useEffect(() => {
+    setHasNotSetOrder(
+      user.swapPercent <= 0 && parseFloat(user.depositBalance) > 0
+    )
+  }, [user.swapPercent, user.depositBalance])
+
   async function handleOrderSubmit(e) {
     e.preventDefault()
-    console.log
     if (parseFloat(balance) <= 0) {
       handleOrderNotification(
         "error",
@@ -85,6 +90,7 @@ export default function StakeForm() {
       status = "success"
 
       handleOrderNotification(status, error)
+      setHasNotSetOrder(false)
       setIsLoading(false)
     } catch (orderError) {
       console.log(orderError)
@@ -112,7 +118,7 @@ export default function StakeForm() {
       </h2>
       <hr className="mb-4" />
       <form className="my-4" onSubmit={handleOrderSubmit}>
-        {user.percentageToSwap <= 0 && user.depositBalance > 0 && (
+        {hasNotSetOrder && (
           <div
             className="p-4 text-blue-700 bg-blue-100 border-l-4 border-blue-500"
             role="alert"
@@ -122,7 +128,7 @@ export default function StakeForm() {
             <p>You haven&apos;t set a swap order yet.</p>
           </div>
         )}
-        {user.depositBalance === 0 && (
+        {parseFloat(user.depositBalance) === 0 && (
           <div
             className="p-4 text-blue-700 bg-blue-100 border-l-4 border-blue-500"
             role="alert"
@@ -142,8 +148,8 @@ export default function StakeForm() {
             <p>
               You do not have enough deposit balance to performs the next swap.
               Please deposit at least{" "}
-              {Math.round(user.balanceRequired * 1e4) / 1e4}{" "}
-              {NETWORK_CURRENCY_TICKER} at your earliest convenience.
+              {Math.round(user.balanceRequired * 1e4) / 1e4} {currency} at your
+              earliest convenience.
             </p>
           </div>
         )}
@@ -169,9 +175,7 @@ export default function StakeForm() {
         </div>
 
         <div className="relative my-6">
-          <p className="text-center">
-            if {NETWORK_CURRENCY_TICKER} price is above
-          </p>
+          <p className="text-center">if {currency} price is above</p>
           <p className="font-semibold text-center">{sellValue} USD</p>
           <Input
             style={{
@@ -195,7 +199,9 @@ export default function StakeForm() {
           > */}
         <Button
           isFullWidth={true}
-          disabled={isLoading || !user.created}
+          disabled={
+            isLoading || !user.created || parseFloat(user.depositBalance) === 0
+          }
           type="submit"
           icon="usdc"
           size="large"
