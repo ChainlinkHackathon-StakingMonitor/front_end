@@ -119,7 +119,7 @@ export default function StakeForm() {
           >
             <p className="font-bold">Notice</p>
 
-            <p>You haven't set a swap order yet.</p>
+            <p>You haven&apos;t set a swap order yet.</p>
           </div>
         )}
         {user.depositBalance === 0 && (
